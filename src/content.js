@@ -36,27 +36,27 @@ export const content = {
   backLabel: "Back to gifts",
   photoGallery: [
     {
-      src: "../public/images/pa.png",
+      src: "/images/pa.png",
       caption: "အလန်းလေးပုံ 📸",
       emoji: "📸",
     },
     {
-      src: "../public/images/pb.png",
+      src: "/images/pb.png",
       caption: "ပါဝါရိန်းဂျားအပြာကောင် 😎",
       emoji: "🧸",
     },
     {
-      src: "../public/images/pc.png",
+      src: "/images/pc.png",
       caption: "ဒါကတော့ အာကြီးဖန်လေးတစ်ဖြတ် ⚽",
       emoji: "🌷",
     },
     {
-      src: "../public/images/pd.png",
+      src: "/images/pd.png",
       caption: "အလန်းလေးရဲ့ eye contact 👀",
       emoji: "💖",
     },
     {
-      src: "../public/images/pe.png",
+      src: "/images/pe.png",
       caption: "Family photo 💖",
       emoji: "✨",
     },
