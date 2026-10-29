@@ -17,7 +17,7 @@ import catf from "../public/images/catflower.png";
 import catg from "../public/images/catgun.png";
 import dog from "../public/images/d.png";
 
-function FloatingDecor({ burst = false }) {
+function FloatingDecor() {
   const bits = [
     "♡",
     "✦",
@@ -35,18 +35,100 @@ function FloatingDecor({ burst = false }) {
     "♡",
     "✧",
     "🎀",
+    "♡",
+    "✦",
+    "✿",
+    "♥",
+    "⋆",
+    "♡",
+    "✧",
+    "🎀",
+    "♡",
+    "✦",
+    "✿",
+    "♥",
+    "⋆",
+    "♡",
+    "✧",
+    "🎀",
+  ];
+  const positions = [
+    [5, 8],
+    [17, 26],
+    [31, 12],
+    [44, 36],
+    [58, 7],
+    [72, 24],
+    [86, 11],
+    [95, 34],
+    [10, 48],
+    [24, 66],
+    [38, 51],
+    [52, 79],
+    [66, 45],
+    [80, 68],
+    [92, 54],
+    [3, 83],
+    [14, 91],
+    [29, 34],
+    [43, 6],
+    [57, 59],
+    [70, 91],
+    [84, 39],
+    [97, 88],
+    [7, 29],
+    [21, 12],
+    [35, 86],
+    [49, 23],
+    [63, 31],
+    [76, 8],
+    [89, 76],
+    [40, 67],
+    [61, 94],
   ];
   return (
-    <div
-      className={`floating-decor ${burst ? "burst" : ""}`}
-      aria-hidden="true"
-    >
+    <div className="floating-decor" aria-hidden="true">
       {bits.map((bit, i) => (
-        <span key={i} style={{ "--i": i }}>
+        <span
+          key={i}
+          style={{
+            "--i": i,
+            "--x": `${positions[i][0]}%`,
+            "--y": `${positions[i][1]}%`,
+          }}
+        >
           {bit}
         </span>
       ))}
     </div>
+  );
+}
+
+function ConfettiRain() {
+  const pieces = Array.from({ length: 48 }, (_, i) => {
+    const left = ((i * 37) % 96) + 2;
+    const drift = ((i * 19) % 120) - 60;
+
+    return (
+      <span
+        key={i}
+        style={{
+          "--left": `${left}%`,
+          "--delay": `${(i % 12) * 0.07}s`,
+          "--duration": `${2.8 + (i % 5) * 0.2}s`,
+          "--drift": `${drift}px`,
+        }}
+      >
+        {i % 3 === 0 ? "✦" : i % 3 === 1 ? "●" : "▪"}
+      </span>
+    );
+  });
+
+  return createPortal(
+    <div className="confetti-rain" aria-hidden="true">
+      {pieces}
+    </div>,
+    document.body,
   );
 }
 
@@ -102,6 +184,7 @@ export default function App() {
   const [blown, setBlown] = useState(false);
   const [confetti, setConfetti] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const isBackgroundAudioPage = page >= 4 && page <= 8;
 
   const go = (next) => {
     setPage(next);
@@ -109,12 +192,29 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (page === 7 && blown) {
+    if (!isBackgroundAudioPage) return;
+
+    const audio = new Audio("/media/bdt.mp3");
+    audio.loop = true;
+    audio.volume = 0.2;
+    audio.play().catch((error) => {
+      console.error("Unable to play background audio:", error);
+    });
+
+    return () => {
+      audio.pause();
+    };
+  }, [isBackgroundAudioPage]);
+
+  useEffect(() => {
+    if (page === 7) {
       setConfetti(true);
-      const timeout = setTimeout(() => setConfetti(false), 2400);
+      const timeout = setTimeout(() => setConfetti(false), 4400);
       return () => clearTimeout(timeout);
     }
-  }, [page, blown]);
+
+    setConfetti(false);
+  }, [page]);
 
   useEffect(() => {
     if (!selectedPhoto) return;
@@ -140,7 +240,8 @@ export default function App() {
 
   return (
     <main className="site-shell">
-      <FloatingDecor burst={confetti} />
+      <FloatingDecor />
+      {confetti && <ConfettiRain />}
       <div className="top-sticker">
         made with <Heart size={13} fill="currentColor" /> for you
       </div>
@@ -437,7 +538,7 @@ export default function App() {
                 </p>
               ))}
               <div className="letter-signature">
-                your bestie, always <span>♡</span>
+                Kue Kue <span>♡</span>
               </div>
             </div>
             <BackButton onClick={() => go(5)} />
@@ -449,7 +550,8 @@ export default function App() {
             <div className="page-icon">
               <Music2 size={29} />
             </div>
-            <h1>{c.videoTitle}</h1>
+            <h2 className="text-center text-2xl text-black">{c.videoTitle}</h2>
+            <div className="media-heart">💗</div>
             {/* <p className="soft-copy">{c.videoHint}</p> */}
             {c.birthdayMedia.src ? (
               <div className="media-frame">
@@ -465,9 +567,7 @@ export default function App() {
               </div>
             ) : (
               <div className="media-placeholder">
-                <div className="media-heart">💗</div>
                 <Volume2 size={24} />
-                <span>Your voice, your video, your memories</span>
                 <small>
                   Add your media path in <code>src/content.js</code>
                 </small>

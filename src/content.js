@@ -36,31 +36,31 @@ export const content = {
   backLabel: "Back to gifts",
   photoGallery: [
     {
-      src: "../public/images/p1.jpg",
+      src: "../public/images/pa.jpg",
       caption: "အလန်းလေးပုံ 📸",
       emoji: "📸",
     },
     {
-      src: "../public/images/p2.jpg",
+      src: "../public/images/pb.jpg",
       caption: "ပါဝါရိန်းဂျားအပြာကောင် 😎",
       emoji: "🧸",
     },
     {
-      src: "../public/images/p3.jpg",
+      src: "../public/images/pc.jpg",
       caption: "ဒါကတော့ အာကြီးဖန်လေးတစ်ဖြတ် ⚽",
       emoji: "🌷",
     },
     {
-      src: "../public/images/p4.jpg",
+      src: "../public/images/pd.jpg",
       caption: "အလန်းလေးရဲ့ eye contact 👀",
       emoji: "💖",
     },
     {
-      src: "../public/images/p5.jpg",
+      src: "../public/images/pe.jpg",
       caption: "Family photo 💖",
       emoji: "✨",
     },
   ],
   // Put your media file in public/media/ and set src, e.g. '/media/birthday-video.mp4'
-  birthdayMedia: { type: "audio", src: "./media/bdwish.mp3" },
+  birthdayMedia: { type: "audio", src: "./media/bdw.mp3" },
 };
